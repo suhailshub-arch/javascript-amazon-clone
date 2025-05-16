@@ -1,8 +1,18 @@
 import {cart} from '../data/cart.js';
+import {products} from '../data/products.js';
 
 let cartItemGridHTML = ``;
 
 cart.items.forEach((cartItem) => {
+
+    let matchingProduct;
+
+    products.forEach((product) => {
+        if (product.id === cartItem.productId) {
+            matchingProduct = product;
+        }
+    });
+
     const cartItemHTML = `
         <div class="cart-item-container">
             <div class="delivery-date">
@@ -10,13 +20,13 @@ cart.items.forEach((cartItem) => {
             </div>
             <div class="cart-item-details-grid">
                 <img class="product-image"
-                    src="${cartItem.product.image}">
+                    src="${matchingProduct.image}">
                 <div class="cart-item-details">
                     <div class="product-name">
-                        ${cartItem.product.name}
+                        ${matchingProduct.name}
                     </div>
                     <div class="product-price">
-                        $${(cartItem.product.priceCents / 100).toFixed(2)}
+                        $${(matchingProduct.priceCents / 100).toFixed(2)}
                     </div>
                     <div class="product-quantity">
                         <span>
