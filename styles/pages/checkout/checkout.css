@@ -210,14 +210,14 @@
   margin-bottom: 15px;
 }
 
-.quantity-input{
+.quantity-input {
   width: 30px;
 }
 
-.quantity-update-label{
+.quantity-update-label {
   display: none;
 }
 
-.quantity-update-label-visible{
+.quantity-update-label-visible {
   display: initial;
 }

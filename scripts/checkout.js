@@ -1,26 +1,25 @@
-import {cart, removeFromCart, updateCart} from '../data/cart.js';
-import {products} from '../data/products.js';
-import { formatCurrency } from './utils/money.js';
+import { cart, removeFromCart, updateCart } from "../data/cart.js";
+import { products } from "../data/products.js";
+import { formatCurrency } from "./utils/money.js";
 
 function generateOrderSummary() {
-    const headerQuantity = document.querySelector('.js-header-quantity');
-    headerQuantity.innerHTML = `
+  const headerQuantity = document.querySelector(".js-header-quantity");
+  headerQuantity.innerHTML = `
         Checkout (<a class="return-to-home-link" 
             href="amazon.html">${cart.totalQuantity} items</a>)
     `;
-    let cartItemGridHTML = ``;
+  let cartItemGridHTML = ``;
 
-    cart.items.forEach((cartItem) => {
+  cart.items.forEach((cartItem) => {
+    let matchingProduct;
 
-        let matchingProduct;
+    products.forEach((product) => {
+      if (product.id === cartItem.productId) {
+        matchingProduct = product;
+      }
+    });
 
-        products.forEach((product) => {
-            if (product.id === cartItem.productId) {
-                matchingProduct = product;
-            }
-        });
-
-        const cartItemHTML = `
+    const cartItemHTML = `
             <div class="cart-item-container">
                 <div class="delivery-date">
                     Delivery date: Tuesday, June 21
@@ -37,18 +36,32 @@ function generateOrderSummary() {
                         </div>
                         <div class="product-quantity">
                             <span>
-                            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+                            Quantity: <span class="quantity-label">${
+                              cartItem.quantity
+                            }</span>
                             </span>
-                            <span class="update-quantity-link link-primary js-update-link" data-product-id="${matchingProduct.id}">
+                            <span class="update-quantity-link link-primary js-update-link" data-product-id="${
+                              matchingProduct.id
+                            }">
                             Update
                             </span>
-                            <span class="quantity-update-label js-quantity-update-label-${matchingProduct.id}">
-                                <input class="quantity-input js-quantity-input-${matchingProduct.id}" type="number" value="${cartItem.quantity}" min="0">
-                                <span class="save-quantity-link link-primary js-save-link" data-product-id="${matchingProduct.id}">
+                            <span class="quantity-update-label js-quantity-update-label-${
+                              matchingProduct.id
+                            }">
+                                <input class="quantity-input js-quantity-input-${
+                                  matchingProduct.id
+                                }" type="number" value="${
+      cartItem.quantity
+    }" min="0">
+                                <span class="save-quantity-link link-primary js-save-link" data-product-id="${
+                                  matchingProduct.id
+                                }">
                                 Save
                                 </span>
                             </span>
-                            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
+                            <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${
+                              matchingProduct.id
+                            }">
                             Delete
                             </span>
                         </div>
@@ -100,73 +113,76 @@ function generateOrderSummary() {
                 </div>
             </div>
         `;
-        cartItemGridHTML += cartItemHTML;
-    });
+    cartItemGridHTML += cartItemHTML;
+  });
 
-    const orderSummary = document.querySelector('.js-order-summary');
-    orderSummary.innerHTML = cartItemGridHTML;
+  const orderSummary = document.querySelector(".js-order-summary");
+  orderSummary.innerHTML = cartItemGridHTML;
 
-    addDeleteLinkEventListeners();
-    addSaveLinkEventListeners();
-    addUpdateLinkEventListeners();
+  addDeleteLinkEventListeners();
+  addSaveLinkEventListeners();
+  addUpdateLinkEventListeners();
 }
-
 
 generateOrderSummary();
 
-function addDeleteLinkEventListeners(){
-    document.querySelectorAll('.js-delete-link').forEach((link) => {
-        link.addEventListener('click', (event) => {
-            const productId = link.dataset.productId
-            removeFromCart(productId);
-            generateOrderSummary();
-        });
+function addDeleteLinkEventListeners() {
+  document.querySelectorAll(".js-delete-link").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const productId = link.dataset.productId;
+      removeFromCart(productId);
+      generateOrderSummary();
     });
+  });
 }
 
-function addSaveLinkEventListeners(){
-    document.querySelectorAll('.save-quantity-link').forEach((link) => {
-        link.addEventListener('click', (event) => {
-            const productId = link.dataset.productId;
-            const quaantityInputElement = document.querySelector(
-                `.js-quantity-input-${productId}`
-            );
+function addSaveLinkEventListeners() {
+  document.querySelectorAll(".save-quantity-link").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const productId = link.dataset.productId;
+      const quaantityInputElement = document.querySelector(
+        `.js-quantity-input-${productId}`
+      );
 
-            const updatedQuantity = parseInt(quaantityInputElement.value);
-            if (updatedQuantity > 0) {
-                const matchingProduct = cart.items.find((item) => {
-                    return item.productId === productId;
-                });
-                console.log(matchingProduct);
-                matchingProduct.quantity = updatedQuantity;
-                updateCart();
-            } else if(updatedQuantity === 0) {
-                removeFromCart(productId);
-            }else {
-                alert('Please enter a valid quantity');
-            }
-
-            generateOrderSummary();
+      const updatedQuantity = parseInt(quaantityInputElement.value);
+      if (updatedQuantity > 0) {
+        const matchingProduct = cart.items.find((item) => {
+          return item.productId === productId;
         });
+        console.log(matchingProduct);
+        matchingProduct.quantity = updatedQuantity;
+        updateCart();
+      } else if (updatedQuantity === 0) {
+        removeFromCart(productId);
+      } else {
+        alert("Please enter a valid quantity");
+      }
+
+      generateOrderSummary();
     });
+  });
 }
 
-function addUpdateLinkEventListeners(){
-    document.querySelectorAll('.js-update-link').forEach((link) => {
-        link.addEventListener('click', (event) => {
-            const productId = link.dataset.productId;
-            const quantityUpdateInputElement = document.querySelector(
-                `.js-quantity-update-label-${productId}`
-            );
-            if (quantityUpdateInputElement.classList.contains('quantity-update-label-visible')) {
-                quantityUpdateInputElement.classList.remove('quantity-update-label-visible');
-            } else{
-                quantityUpdateInputElement.classList.add('quantity-update-label-visible');
-            }   
-
-        });
+function addUpdateLinkEventListeners() {
+  document.querySelectorAll(".js-update-link").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const productId = link.dataset.productId;
+      const quantityUpdateInputElement = document.querySelector(
+        `.js-quantity-update-label-${productId}`
+      );
+      if (
+        quantityUpdateInputElement.classList.contains(
+          "quantity-update-label-visible"
+        )
+      ) {
+        quantityUpdateInputElement.classList.remove(
+          "quantity-update-label-visible"
+        );
+      } else {
+        quantityUpdateInputElement.classList.add(
+          "quantity-update-label-visible"
+        );
+      }
     });
+  });
 }
-
-
-
