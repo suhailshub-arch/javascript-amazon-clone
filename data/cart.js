@@ -1,32 +1,5 @@
 import {products} from './products.js';
 
-// export const cart = {
-//     items: [],
-//     totalQuantity: 0,
-//     totalPriceCents: 0
-// };
-
-// -------------------------------- TESTING --------------------------------
-// This is a test cart object to simulate the cart functionality
-
-// export const cart = {
-//     items: [
-//         {
-//             productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-//             quantity: 5
-//         },
-//         {
-//             productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-//             quantity: 1
-//             },
-//     ],
-//     totalQuantity: 0,
-//     totalPriceCents: 0
-// };
-
-// updateCart();
-// ----------------------------------------------------------------
-
 export let cart = JSON.parse(localStorage.getItem('cart'));
 
 if (!cart) {
@@ -53,13 +26,9 @@ function saveToLocalStorage() {
 
 
 export function addToCart(productId, quantity) {
-    let matchingProduct;
-
-    cart.items.forEach((product) => {
-      if (product.id === productId) {
-        matchingProduct = product;
-      }
-    });
+    const matchingProduct =  cart.items.find((item) => {
+                    return item.productId === productId;
+                });
 
     if (matchingProduct) {
       matchingProduct.quantity += quantity;
@@ -74,7 +43,7 @@ export function addToCart(productId, quantity) {
     updateCart();
 };
 
-function updateCart() {
+export function updateCart() {
     cart.totalQuantity = 0;
     cart.totalPriceCents = 0;
 

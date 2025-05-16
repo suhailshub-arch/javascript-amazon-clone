@@ -209,3 +209,15 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.quantity-input{
+  width: 30px;
+}
+
+.quantity-update-label{
+  display: none;
+}
+
+.quantity-update-label-visible{
+  display: initial;
+}
