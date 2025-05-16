@@ -101,7 +101,6 @@ generateOrderSummary();
 document.querySelectorAll('.js-delete-link').forEach((link) => {
     link.addEventListener('click', (event) => {
         const productId = link.dataset.productId
-
         removeFromCart(productId);
         generateOrderSummary();
     });
