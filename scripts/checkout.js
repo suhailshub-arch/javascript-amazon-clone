@@ -3,6 +3,11 @@ import {products} from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 
 function generateOrderSummary() {
+    const headerQuantity = document.querySelector('.js-header-quantity');
+    headerQuantity.innerHTML = `
+        Checkout (<a class="return-to-home-link" 
+            href="amazon.html">${cart.totalQuantity} items</a>)
+    `;
     let cartItemGridHTML = ``;
 
     cart.items.forEach((cartItem) => {
