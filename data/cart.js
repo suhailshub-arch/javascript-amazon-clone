@@ -6,6 +6,9 @@ import {products} from './products.js';
 //     totalPriceCents: 0
 // };
 
+// -------------------------------- TESTING --------------------------------
+// This is a test cart object to simulate the cart functionality
+
 export const cart = {
     items: [
         {
@@ -20,6 +23,9 @@ export const cart = {
     totalQuantity: 0,
     totalPriceCents: 0
 };
+
+updateCart();
+// ----------------------------------------------------------------
 
 export function addToCart(productId, quantity) {
     let matchingProduct;
@@ -52,8 +58,15 @@ function updateCart() {
         cart.totalPriceCents += item.priceCents * item.quantity;
     });
 
-    const cartQuantityElement = document.querySelector('.js-cart-quantity');
-    cartQuantityElement.innerHTML = cart.totalQuantity;
-
     console.log('Cart updated:', cart);
+}
+
+export function removeFromCart(productId){
+    let newCart = [];
+    newCart = cart.items.filter((item) => {
+        return item.productId !== productId;
+    })
+
+    cart.items = newCart;
+    updateCart();
 }

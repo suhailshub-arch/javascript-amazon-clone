@@ -1,5 +1,5 @@
 import {products} from '../data/products.js';
-import {addToCart} from '../data/cart.js';
+import {cart, addToCart} from '../data/cart.js';
 import { formatCurrency } from './utils/money.js';
 
 let productHTML = '';
@@ -59,6 +59,7 @@ products.forEach((product) => {
 })
 
 document.querySelector('.js-product-grid').innerHTML = productHTML;
+document.querySelector('.js-cart-quantity').innerHTML = cart.totalQuantity;
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
@@ -67,6 +68,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     const productQuantity = Number(productQuantitySelector.options[productQuantitySelector.selectedIndex].value);
 
     addToCart(productId, productQuantity);
+    document.querySelector('.js-cart-quantity').innerHTML = cart.totalQuantity;
 
     const addedToCartImage = document.querySelector(`.js-added-to-cart-${productId}`);
     addedToCartImage.classList.add('js-added-to-cart-visible');
