@@ -3,10 +3,10 @@ import {products} from './products.js';
 export const cart = {
     items: [],
     totalQuantity: 0,
-    totalPrice: 0
+    totalPriceCents: 0
 };
 
-export function addToCart(productId) {
+export function addToCart(productId, quantity) {
     let matchingProduct;
 
     cart.items.forEach((product) => {
@@ -16,12 +16,12 @@ export function addToCart(productId) {
     });
 
     if (matchingProduct) {
-      matchingProduct.quantity++;
+      matchingProduct.quantity += quantity;
     } else {
       const product = products.find((product) => product.id === productId);
       cart.items.push({
         product,
-        quantity: 1
+        quantity
       });
     }
 
@@ -30,13 +30,15 @@ export function addToCart(productId) {
 
 function updateCart() {
     cart.totalQuantity = 0;
-    cart.totalPrice = 0;
+    cart.totalPriceCents = 0;
 
     cart.items.forEach((item) => {
         cart.totalQuantity += item.quantity;
-        cart.totalPrice += item.product.priceCents * item.quantity;
+        cart.totalPriceCents += item.product.priceCents * item.quantity;
     });
 
     const cartQuantityElement = document.querySelector('.js-cart-quantity');
     cartQuantityElement.innerHTML = cart.totalQuantity;
+
+    console.log('Cart updated:', cart);
 }
