@@ -144,6 +144,16 @@
   opacity: 0;
 }
 
+.js-added-to-cart-visible {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.js-added-to-cart-hidden {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
 .added-to-cart img {
   height: 20px;
   margin-right: 5px;
