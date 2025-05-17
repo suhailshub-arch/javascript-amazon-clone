@@ -470,3 +470,9 @@ export const products = [
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
 ];
+
+export function findProductById(productId) {
+  return products.find((product) => {
+    return productId === product.id;
+  });
+}

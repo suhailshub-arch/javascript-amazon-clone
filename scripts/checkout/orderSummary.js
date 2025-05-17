@@ -3,13 +3,14 @@ import {
   removeFromCart,
   updateCart,
   updateDeliveryOption,
-} from "../data/cart.js";
-import { products } from "../data/products.js";
-import { formatCurrency } from "./utils/money.js";
+} from "../../data/cart.js";
+import { products, findProductById } from "../../data/products.js";
+import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
-import { deliveryOptions } from "../data/deliveryOptions.js";
+import { deliveryOptions } from "../../data/deliveryOptions.js";
+import { generateCheckoutPage } from "./checkout.js";
 
-function generateOrderSummary() {
+export function generateOrderSummary() {
   const headerQuantity = document.querySelector(".js-header-quantity");
   headerQuantity.innerHTML = `
         Checkout (<a class="return-to-home-link" 
@@ -145,7 +146,7 @@ function addDeleteLinkEventListeners() {
     link.addEventListener("click", (event) => {
       const productId = link.dataset.productId;
       removeFromCart(productId);
-      generateOrderSummary();
+      generateCheckoutPage();
     });
   });
 }
@@ -172,7 +173,7 @@ function addSaveLinkEventListeners() {
         alert("Please enter a valid quantity");
       }
 
-      generateOrderSummary();
+      generateCheckoutPage();
     });
   });
 }
@@ -206,9 +207,9 @@ function addDeliveryOptionRadioEventListeners() {
     radio.addEventListener("click", (event) => {
       const selectedDeliveryOptionId = parseInt(radio.value);
       const productId = radio.name.split("delivery-option-")[1];
+      console.log(`Selected product ID: ${productId}`);
       updateDeliveryOption(productId, selectedDeliveryOptionId);
-      updateCart();
-      generateOrderSummary();
+      generateCheckoutPage();
     });
   });
 }
