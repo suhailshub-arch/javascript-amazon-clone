@@ -67,3 +67,10 @@ export function removeFromCart(productId) {
   cart.items = newCart;
   updateCart();
 }
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  const matchingProduct = cart.items.find((item) => {
+    return item.productId === productId;
+  });
+  matchingProduct.deliveryOptionId = deliveryOptionId;
+}

@@ -1,4 +1,9 @@
-import { cart, removeFromCart, updateCart } from "../data/cart.js";
+import {
+  cart,
+  removeFromCart,
+  updateCart,
+  updateDeliveryOption,
+} from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 import dayjs from "https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js";
@@ -201,11 +206,7 @@ function addDeliveryOptionRadioEventListeners() {
     radio.addEventListener("click", (event) => {
       const selectedDeliveryOptionId = parseInt(radio.value);
       const productId = radio.name.split("delivery-option-")[1];
-      console.log(productId);
-      const matchingProduct = cart.items.find((item) => {
-        return item.productId === productId;
-      });
-      matchingProduct.deliveryOptionId = selectedDeliveryOptionId;
+      updateDeliveryOption(productId, selectedDeliveryOptionId);
       updateCart();
       generateOrderSummary();
     });
