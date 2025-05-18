@@ -1,6 +1,6 @@
 import { formatCurrency } from "../../scripts/utils/money.js";
 
-describe("Test Suite: formatCurrency", () => {
+describe("money.js (formatCurrency)", () => {
   it("should format 2095 as 20.95", () => {
     expect(formatCurrency(2095)).toBe("20.95");
   });

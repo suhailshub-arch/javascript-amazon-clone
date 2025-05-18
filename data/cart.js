@@ -1,4 +1,4 @@
-import { products, findProductById } from "./products.js";
+import { products } from "./products.js";
 
 export let cart = JSON.parse(localStorage.getItem("cart"));
 
@@ -50,7 +50,9 @@ export function updateCart() {
   cart.totalPriceCents = 0;
 
   cart.items.forEach((item) => {
-    const matchingProduct = findProductById(item.productId);
+    const matchingProduct = products.find((product) => {
+      return product.id === item.productId;
+    });
     cart.totalQuantity += item.quantity;
     cart.totalPriceCents += matchingProduct.priceCents * item.quantity;
   });
@@ -74,6 +76,10 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
   const matchingProduct = cart.items.find((item) => {
     return item.productId === productId;
   });
+  if (!matchingProduct) {
+    console.error("Product not found in cart");
+    return;
+  }
   matchingProduct.deliveryOptionId = deliveryOptionId;
   saveToLocalStorage();
 }
