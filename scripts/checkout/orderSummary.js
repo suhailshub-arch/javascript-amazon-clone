@@ -11,11 +11,6 @@ import { deliveryOptions } from "../../data/deliveryOptions.js";
 import { generateCheckoutPage } from "./checkout.js";
 
 export function generateOrderSummary() {
-  const headerQuantity = document.querySelector(".js-header-quantity");
-  headerQuantity.innerHTML = `
-        Checkout (<a class="return-to-home-link" 
-            href="amazon.html">${cart.totalQuantity} items</a>)
-    `;
 
   const orderSummary = document.querySelector(".js-order-summary");
   let cartItemGridHTML = ``;
@@ -138,8 +133,6 @@ function generateDeliveryOptionsHTML(matchingProduct, cartItem) {
   });
   return deliveryOptionsHTML;
 }
-
-generateOrderSummary();
 
 function addDeleteLinkEventListeners() {
   document.querySelectorAll(".js-delete-link").forEach((link) => {

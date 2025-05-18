@@ -21,7 +21,7 @@ export function generatePaymentSummary() {
         <div class="payment-summary-title">Order Summary</div>
 
         <div class="payment-summary-row">
-        <div>Items ${cart.totalQuantity}:</div>
+        <div>Items (${cart.totalQuantity}):</div>
         <div class="payment-summary-money">$${formatCurrency(
           cart.totalPriceCents
         )}</div>
@@ -60,4 +60,4 @@ export function generatePaymentSummary() {
 
   const paymentSummaryElement = document.querySelector(".js-payment-summary");
   paymentSummaryElement.innerHTML = paymentSummaryHTML;
-};
+}
